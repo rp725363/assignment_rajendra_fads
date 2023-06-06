@@ -1,0 +1,72 @@
+Question 6 - Using the data from Question 3, write code to analyze the data and answer the following questions Note 
+1.Draw plots to demonstrate the analysis for the following questions for better visualizations.
+2. Write code comments wherever required for code understanding
+#we wrote below code to extract data from link as guided by question 
+
+import requests
+import json
+
+# Make an HTTP GET request to download the JSON file
+url = 'https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json'
+response = requests.get(url)
+
+# Load the JSON data
+data = json.loads(response.text)
+
+# Extract the desired data from the JSON structure
+# Modify this section according to the specific data you want to extract
+pokemon_list = data['pokemon']
+for pokemon in pokemon_list:
+    name = pokemon['name']
+    types = pokemon['type']
+    print(f"Name: {name}")
+    print(f"Types: {types}")
+    print('---')
+
+Insights to be drawn -
+● Get all Pokemons whose spawn rate is less than 5%
+pokemon_less_than_5_percent = [pokemon for pokemon in data['pokemon'] if pokemon['spawn_chance'] < 5]
+for pokemon in pokemon_less_than_5_percent:
+    name = pokemon['name']
+    spawn_rate = pokemon['spawn_chance']
+    print(f"Name: {name}")
+    print(f"Spawn Rate: {spawn_rate}")
+    print('---')
+
+● Get all Pokemons that have less than 4 weaknesses
+pokemon_less_than_4_weaknesses = [pokemon for pokemon in data['pokemon'] if len(pokemon['weaknesses']) < 4]
+for pokemon in pokemon_less_than_4_weaknesses:
+    name = pokemon['name']
+    weaknesses = pokemon['weaknesses']
+    print(f"Name: {name}")
+    print(f"Weaknesses: {weaknesses}")
+    print('---')
+● Get all Pokemons that have no multipliers at all
+pokemon_no_multipliers = [pokemon for pokemon in data['pokemon'] if not pokemon.get('multipliers')]
+for pokemon in pokemon_no_multipliers:
+    name = pokemon['name']
+    print(f"Name: {name}")
+    print('---')
+● Get all Pokemons that do not have more than 2 evolutions
+pokemon_no_mowre_than_2_evolutions = [pokemon for pokemon in data['pokemon'] if len(pokemon.get('next_evolution', [])) <= 2]
+for pokemon in pokemon_no_mowre_than_2_evolutions:
+    name = pokemon['name']
+    print(f"Name: {name}")
+    print('---')
+● Get all Pokemons whose spawn time is less than 300 seconds.
+pokemon_less_than_300_sec = [pokemon for pokemon in data['pokemon'] if pokemon['spawn_time'] < '300']
+for pokemon in pokemon_less_than_300_sec:
+    name = pokemon['name']
+    spawn_time = pokemon['spawn_time']
+    print(f"Name: {name}")
+    print(f"Spawn Time: {spawn_time}")
+    print('---')
+Note - spawn time format is "05:32”, so assume “minute: second” format and perform the analysis.
+● Get all Pokemon who have more than two types of capabilities
+pokemon_more_than_2_capabilities = [pokemon for pokemon in data['pokemon'] if len(pokemon['type']) > 2]
+for pokemon in pokemon_more_than_2_capabilities:
+    name = pokemon['name']
+    capabilities = pokemon['type']
+    print(f"Name: {name}")
+    print(f"Capabilities: {capabilities}")
+    print('---')
